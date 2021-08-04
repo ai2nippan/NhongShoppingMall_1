@@ -9,9 +9,9 @@ import 'package:nhongshoppingmall_1/utility/my_constant.dart';
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context)=>Authen(),
   '/createAccount':(BuildContext context)=> CreateAccount(),
-  'buyerService':(BuildContext context)=>BuyerService(),
-  'salerService':(BuildContext context)=>SalerService(),
-  'riderService':(BuildContext context)=>RiderService(),
+  '/buyerService':(BuildContext context)=>BuyerService(),
+  '/salerService':(BuildContext context)=>SalerService(),
+  '/riderService':(BuildContext context)=>RiderService(),
 };
 
 String? initlalRoute;
