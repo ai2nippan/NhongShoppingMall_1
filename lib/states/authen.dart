@@ -107,9 +107,11 @@ class _AuthenState extends State<Authen> {
 
             SharedPreferences preferences =
                 await SharedPreferences.getInstance();
+                preferences.setString('id', model.id);
                 preferences.setString('type', type);
                 //preferences.setString('user', user!); // write => it's ok
                 preferences.setString('user', model.user); // But I like this type (masterung)
+                preferences.setString('name', model.name);
 
             switch (type) {
               case 'buyer':
