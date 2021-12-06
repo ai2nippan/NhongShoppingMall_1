@@ -3,7 +3,15 @@ import 'package:flutter/material.dart';
 class MyConstant {
   // General
   static String appName = 'Shopping Mall';
-  static String domain = 'https://687fa9ad2dce.ngrok.io';
+  //static String domain = 'https://40f8a147d35c.ngrok.io';
+  //static String domain = 'http://edd0-223-24-154-37.ngrok.io';
+  static String domain = 'http://192.168.1.115';
+
+  static String urlPromptpay = 'https://promptpay.io/0891689969.png';
+
+  // Omise
+  static String publicKey = 'pkey_test_5psx6grvba1wp015hdb';
+  static String secretKey = 'skey_test_5psx6grvlb3i4k16mar';
 
   // Route
   static String routeAuthen = '/authen';
@@ -12,6 +20,11 @@ class MyConstant {
   static String routeSalerService = '/salerService';
   static String routeRiderService = '/riderService';
   static String routeAddProduct = '/addProduct';
+  static String routeEditProfileSaler = '/editProfileSaler';
+  static String routeShowCart = '/showCart';
+  static String routeAddWallet = '/addWallet';
+  static String routeConfirmAddWallet = '/confirmAddWallet';
+  
 
   // Image
   static String image1 = 'images/image1.png';
@@ -60,6 +73,18 @@ class MyConstant {
         fontWeight: FontWeight.w700, // w70%
       );
 
+      TextStyle h2RedStyle() => TextStyle(
+        fontSize: 18,
+        color: Colors.red.shade700,
+        fontWeight: FontWeight.w700, // w70%
+      );
+
+      TextStyle h2BlueStyle() => TextStyle(
+        fontSize: 18,
+        color: Colors.blue.shade800,
+        fontWeight: FontWeight.w700, // w70%
+      );
+
   // body part ส่วนของ body ธรรมดา
   TextStyle h3Style() => TextStyle(
         fontSize: 14,
@@ -81,4 +106,6 @@ class MyConstant {
           borderRadius: BorderRadius.circular(30),
         ),
       );
+
+  
 }

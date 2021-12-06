@@ -368,7 +368,7 @@ class _CreateAccountState extends State<CreateAccount> {
         print('## user OK');
 
         if (file == null) {
-          // No Avatar
+          // No Avatar (No picture)
           processInsertMySQL(
             name: name,
             address: address,
@@ -377,7 +377,7 @@ class _CreateAccountState extends State<CreateAccount> {
             password: password,
           );
         } else {
-          // Have Avatar
+          // Have Avatar (Have picture)
           print('### process Upload Avatar');
           String apiSaveAvatar =
               '${MyConstant.domain}/Mobile/Flutter2/Train/testapporder1/php/nhongshoppingmall_1/saveAvatar.php';

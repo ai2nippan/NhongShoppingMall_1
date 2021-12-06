@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:nhongshoppingmall_1/models/product_model.dart';
+import 'package:nhongshoppingmall_1/states/edit_product.dart';
 import 'package:nhongshoppingmall_1/utility/my_constant.dart';
 import 'package:nhongshoppingmall_1/widgets/show_image.dart';
 import 'package:nhongshoppingmall_1/widgets/show_progress.dart';
@@ -30,10 +31,14 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
   }
 
   Future<Null> loadValueFromAPI() async {
+    if (productModels.length != 0) {
+      productModels.clear();
+    } else {}
+
     SharedPreferences preferences = await SharedPreferences.getInstance();
     //String? id = preferences.getString('id'); // String? => meaning this value of variable can null or not null
     String id = preferences.getString(
-        'id')!; // ... preferences.getString('id')! => meaning not null only [I choose this. Because I sure this value not null]
+        'id')!; // ... preferences.getString('id')! => meaning not null only [I choose this. Because I am sure this value not null]
 
     String apiGetProductWhereIdSeller =
         '${MyConstant.domain}/Mobile/Flutter2/Train/testapporder1/php/nhongshoppingmall_1/getProductWhereidSeller.php?isAdd=true&idSeller=$id';
@@ -89,7 +94,8 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: MyConstant.dark,
         onPressed: () =>
-            Navigator.pushNamed(context, MyConstant.routeAddProduct),
+            Navigator.pushNamed(context, MyConstant.routeAddProduct)
+                .then((value) => loadValueFromAPI()),
         child: Text('Add'),
       ),
     );
@@ -158,7 +164,16 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            print('## You Click Edit');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditProduct(
+                                    productModel: productModels[index],
+                                  ),
+                                )).then((value) => loadValueFromAPI());
+                          },
                           icon: Icon(
                             Icons.edit_outlined,
                             size: 36,
@@ -206,9 +221,19 @@ class _ShowProductSellerState extends State<ShowProductSeller> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () async {
+              print('## Confirm Delete at id ==> ${productModel.id}');
+              String apiDeleteProductWhereId =
+                  '${MyConstant.domain}/Mobile/Flutter2/Train/testapporder1/php/nhongshoppingmall_1/deleteProductWhereId.php?isAdd=true&id=${productModel.id}';
+
+              await Dio().get(apiDeleteProductWhereId).then((value) {
+                Navigator.pop(context);
+                loadValueFromAPI();
+              });
+            },
             child: Text('Delete'),
-          ),TextButton(
+          ),
+          TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text('Cancel'),
           ),

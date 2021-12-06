@@ -37,6 +37,16 @@ dependencies:
   dio: ^4.0.0
   shared_preferences: ^2.0.6
   cached_network_image: ^3.1.0
+  sqflite: 
+  #flutter_svg: 
+  flutter_svg: ^0.22.0  
+  flutter_svg_provider: ^0.1.10  
+  file_utils: ^1.0.1
+  mask_text_input_formatter: ^2.0.0
+  omise_flutter: ^0.1.6
+  http: ^0.13.4
+  intl: ^0.17.0
+  
 
 dev_dependencies:
   flutter_test:

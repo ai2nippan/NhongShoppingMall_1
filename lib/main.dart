@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nhongshoppingmall_1/states/add_product.dart';
+import 'package:nhongshoppingmall_1/states/add_wallet.dart';
 import 'package:nhongshoppingmall_1/states/authen.dart';
 import 'package:nhongshoppingmall_1/states/buyer_service.dart';
+import 'package:nhongshoppingmall_1/states/confirm_add_wallet.dart';
 import 'package:nhongshoppingmall_1/states/create_account.dart';
+import 'package:nhongshoppingmall_1/states/edit_profile_saler.dart';
 import 'package:nhongshoppingmall_1/states/rider_service.dart';
 import 'package:nhongshoppingmall_1/states/saler_service.dart';
+import 'package:nhongshoppingmall_1/states/show_cart.dart';
 import 'package:nhongshoppingmall_1/utility/my_constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +19,12 @@ final Map<String, WidgetBuilder> map = {
   '/salerService': (BuildContext context) => SalerService(),
   '/riderService': (BuildContext context) => RiderService(),
   '/addProduct': (BuildContext context) => AddProduct(),
+  '/editProfileSaler': (BuildContext context) => EditProfileSaler(),
+  // '/showCart': (BuildContext context) => ShowCart(),
+  // '/addWallet': (BuildContext context)=> AddWallet(),
+  MyConstant.routeShowCart: (BuildContext context) => ShowCart(),
+  MyConstant.routeAddWallet :(BuildContext context)=> AddWallet(),
+  MyConstant.routeConfirmAddWallet : (BuildContext context)=> ConfirmAddWallet(),
 };
 
 String? initlalRoute;
