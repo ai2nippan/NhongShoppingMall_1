@@ -11,6 +11,7 @@ import 'package:nhongshoppingmall_1/utility/my_constant.dart';
 import 'package:nhongshoppingmall_1/utility/my_dialog.dart';
 import 'package:nhongshoppingmall_1/widgets/show_image.dart';
 import 'package:nhongshoppingmall_1/widgets/show_title.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfirmAddWallet extends StatefulWidget {
   const ConfirmAddWallet({Key? key}) : super(key: key);
@@ -29,12 +30,21 @@ class _ConfirmAddWalletState extends State<ConfirmAddWallet> {
   File? file;
   var formKey = GlobalKey<FormState>();
 
+  String? idBuyer;
+  TextEditingController moneyController = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     findCurrentTime();
+    findIdbuyer();
+  }
+
+  Future<void> findIdbuyer() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    idBuyer = preferences.getString('id');
   }
 
   void findCurrentTime() {
@@ -89,7 +99,9 @@ class _ConfirmAddWalletState extends State<ConfirmAddWallet> {
       children: [
         Container(
           width: 250,
-          child: TextFormField(keyboardType: TextInputType.number,
+          child: TextFormField(
+            controller: moneyController,
+            keyboardType: TextInputType.number,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Please fill Money ?';
@@ -127,6 +139,8 @@ class _ConfirmAddWalletState extends State<ConfirmAddWallet> {
   }
 
   Future<void> processUploadAndInsertData() async {
+    // upload Image to Server
+
     String apiSaveSlip =
         '${MyConstant.domain}/Mobile/Flutter2/Train/testapporder1/php/nhongshoppingmall_1/saveSlip.php';
     String nameSlip = 'slip${Random().nextInt(1000000)}.jpg';
@@ -139,11 +153,35 @@ class _ConfirmAddWalletState extends State<ConfirmAddWallet> {
           await MultipartFile.fromFile(file!.path, filename: nameSlip);
 
       FormData data = FormData.fromMap(map);
-      await Dio().post(apiSaveSlip, data: data).then((value) {
+      await Dio().post(apiSaveSlip, data: data).then((value) async {
         print('value ==> $value');
         Navigator.pop(context);
+
+        // insert value to mySQL
+        var pathSlip = '/slip/$nameSlip';
+        var status = 'WaitOrder';
+
+        //var urlAPIinsert = '${MyConstant.domain}/Mobile/Flutter2/Train/testapporder1/php/nhongshoppingmall_1/InsertWallet.php?isAdd=true&idBuyer=$idBuyer&datePay=$dateTimeStr&money=${moneyController.text.trim()}&pathSlip=${/slip/$nameSlip}&status=$status';
+        var urlAPIinsert =
+            '${MyConstant.domain}/Mobile/Flutter2/Train/testapporder1/php/nhongshoppingmall_1/InsertWallet.php?isAdd=true&idBuyer=$idBuyer&datePay=$dateTimeStr&money=${moneyController.text.trim()}&pathSlip=$pathSlip&status=$status';
+        await Dio()
+            .get(urlAPIinsert)
+            .then((value) => MyDialog(funcAction: success).actionDialog(
+                  context,
+                  'Confirm Success',
+                  'Confirm Add Money to Wallet Success',
+                ));
       });
     } catch (e) {}
+  }
+
+  // Create function --- success() ---
+  void success() {
+    //Navigator.pop(context);
+
+    // Move to page that i want to go
+    Navigator.pushNamedAndRemoveUntil(context, MyConstant.routeBuyerService, (route) => false);
+    print('Success Work');
   }
 
   Future<void> processTakePhoto(ImageSource source) async {

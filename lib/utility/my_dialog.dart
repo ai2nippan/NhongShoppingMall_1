@@ -7,11 +7,20 @@ import 'package:nhongshoppingmall_1/widgets/show_image.dart';
 import 'package:nhongshoppingmall_1/widgets/show_title.dart';
 
 class MyDialog {
+  final Function()? funcAction;
+
+  // Create Constructor
+  //MyDialog({required this.funcAction}); //Required have or no have. It's ok
+  MyDialog({this.funcAction});
+
   Future<Null> showProgressDialog(BuildContext context) async {
     showDialog(
       context: context,
       builder: (context) => WillPopScope(
-        child: Center(child: CircularProgressIndicator(color: Colors.white,)),
+        child: Center(
+            child: CircularProgressIndicator(
+          color: Colors.white,
+        )),
         onWillPop: () async {
           return false;
         },
@@ -63,6 +72,30 @@ class MyDialog {
         ),
         children: [
           TextButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
+        ],
+      ),
+    );
+  }
+
+  Future<Null> actionDialog(
+    BuildContext context,
+    String title,
+    String message,
+  ) async {
+    showDialog(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: ListTile(
+          leading: ShowImage(path: MyConstant.image1),
+          title: ShowTitle(title: title, textStyle: MyConstant().h2Style()),
+          subtitle:
+              ShowTitle(title: message, textStyle: MyConstant().h3Style()),
+        ),
+        children: [
+          // TextButton(onPressed: () => Navigator.pop(context), child: Text('OK'))
+          TextButton(
+              onPressed: funcAction,
+              child: Text('OK'))
         ],
       ),
     );

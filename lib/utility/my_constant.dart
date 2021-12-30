@@ -5,7 +5,7 @@ class MyConstant {
   static String appName = 'Shopping Mall';
   //static String domain = 'https://40f8a147d35c.ngrok.io';
   //static String domain = 'http://edd0-223-24-154-37.ngrok.io';
-  static String domain = 'http://192.168.1.115';
+  static String domain = 'http://192.168.1.111';
 
   static String urlPromptpay = 'https://promptpay.io/0891689969.png';
 
@@ -24,7 +24,6 @@ class MyConstant {
   static String routeShowCart = '/showCart';
   static String routeAddWallet = '/addWallet';
   static String routeConfirmAddWallet = '/confirmAddWallet';
-  
 
   // Image
   static String image1 = 'images/image1.png';
@@ -51,6 +50,42 @@ class MyConstant {
     900: Color.fromRGBO(255, 87, 89, 1.0),
   };
 
+  // Background
+  BoxDecoration planBackground() =>
+      BoxDecoration(color: MyConstant.light.withOpacity(0.75));
+
+  BoxDecoration whiteBackground() => BoxDecoration(
+        color: Colors.white,
+      );
+
+  // Background Gradient
+  // Left -> Right (Default)
+  BoxDecoration gradientLinearBackground() => BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.white, MyConstant.primary],
+        ),
+      );
+
+  BoxDecoration gradientLinearTopDownBackground() => BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          //colors: [Colors.white, MyConstant.primary,MyConstant.dark],
+          colors: [Colors.white, MyConstant.light, MyConstant.primary],
+        ),
+      );
+
+  // Radial Gradient
+  BoxDecoration gradientRadioBackground() => BoxDecoration(
+        gradient: RadialGradient(
+          //center: Alignment.topCenter,
+          center: Alignment(0, -0.5),
+          radius: 1.5,  //0.5 //default,
+          colors: [Colors.white, MyConstant.primary],
+          //colors: [Colors.white, MyConstant.light,MyConstant.primary],
+        ),
+      );
+
   // Style
 
   // Big Font ตัวใหญ่
@@ -73,13 +108,13 @@ class MyConstant {
         fontWeight: FontWeight.w700, // w70%
       );
 
-      TextStyle h2RedStyle() => TextStyle(
+  TextStyle h2RedStyle() => TextStyle(
         fontSize: 18,
         color: Colors.red.shade700,
         fontWeight: FontWeight.w700, // w70%
       );
 
-      TextStyle h2BlueStyle() => TextStyle(
+  TextStyle h2BlueStyle() => TextStyle(
         fontSize: 18,
         color: Colors.blue.shade800,
         fontWeight: FontWeight.w700, // w70%
@@ -106,6 +141,4 @@ class MyConstant {
           borderRadius: BorderRadius.circular(30),
         ),
       );
-
-  
 }

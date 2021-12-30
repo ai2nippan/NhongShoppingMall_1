@@ -1,8 +1,15 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:nhongshoppingmall_1/bodys/my_money_buyer.dart';
 import 'package:nhongshoppingmall_1/bodys/my_order_buyer.dart';
 import 'package:nhongshoppingmall_1/bodys/show_all_shop_buyer.dart';
+import 'package:nhongshoppingmall_1/models/user_model.dart';
 import 'package:nhongshoppingmall_1/utility/my_constant.dart';
+import 'package:nhongshoppingmall_1/widgets/show_image.dart';
+import 'package:nhongshoppingmall_1/widgets/show_progress.dart';
 import 'package:nhongshoppingmall_1/widgets/show_signout.dart';
 import 'package:nhongshoppingmall_1/widgets/show_title.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +29,34 @@ class _BuyerServiceState extends State<BuyerService> {
   ];
   int indexWidget = 0;
 
+  UserModel? userModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    findUserLogin();
+  }
+
+  // Create thread
+  Future<void> findUserLogin() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var idUserLogin = preferences.getString('id');
+    // print('idUserLogin ===>> $idUserLogin');
+    var urlAPI =
+        '${MyConstant.domain}/Mobile/Flutter2/Train/testapporder1/php/nhongshoppingmall_1/getUserWhereId.php?isAdd=true&id=$idUserLogin';
+    await Dio().get(urlAPI).then((value) {
+      for (var item in json.decode(value.data)) {
+        // print('item ===>> $item');
+        setState(() {
+          // Map type
+          userModel = UserModel.fromMap(item);
+          print('name ===>> ${userModel!.name}');
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +65,8 @@ class _BuyerServiceState extends State<BuyerService> {
         title: Text('Buyer'),
         actions: [
           IconButton(
-            onPressed: () => Navigator.pushNamed(context, MyConstant.routeShowCart),
+            onPressed: () =>
+                Navigator.pushNamed(context, MyConstant.routeShowCart),
             icon: Icon(Icons.shopping_cart_outlined),
           ),
         ],
@@ -127,8 +163,30 @@ class _BuyerServiceState extends State<BuyerService> {
     );
   }
 
-  UserAccountsDrawerHeader buildHeader() =>
-      UserAccountsDrawerHeader(accountName: null, accountEmail: null);
+  UserAccountsDrawerHeader buildHeader() => UserAccountsDrawerHeader(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          radius: 1,
+          center: Alignment(-0.8, -0.2),
+          colors: [Colors.white, MyConstant.dark],
+        ),
+      ),
+      currentAccountPicture: userModel == null
+          ? ShowImage(path: MyConstant.image1)
+          : userModel!.avatar.isEmpty
+              ? ShowImage(path: MyConstant.image1)
+              : CircleAvatar(
+                  backgroundImage: CachedNetworkImageProvider(
+                      '${MyConstant.domain}${userModel!.avatar}'),
+                ), //Image.network('${MyConstant.domain}${userModel!.avatar}') ,
+      accountName: ShowTitle(
+        title: userModel == null ? '' : userModel!.name,
+        textStyle: MyConstant().h2WhiteStyle(),
+      ),
+      accountEmail: null);
+
+  //UserAccountsDrawerHeader(accountName: ShowTitle(title: userModel!.name ?? '') , accountEmail: null);
+  //userModel!.name ?? '' meaning if name is null give a space ''
 
   // Cancel in here and move to new file : show_signout.dart
   // Column buildSignOut() {
