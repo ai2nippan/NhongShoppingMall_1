@@ -5,7 +5,7 @@ class MyConstant {
   static String appName = 'Shopping Mall';
   //static String domain = 'https://40f8a147d35c.ngrok.io';
   //static String domain = 'http://edd0-223-24-154-37.ngrok.io';
-  static String domain = 'http://192.168.1.111';
+  static String domain = 'http://192.168.43.88';
 
   static String urlPromptpay = 'https://promptpay.io/0891689969.png';
 
@@ -80,7 +80,7 @@ class MyConstant {
         gradient: RadialGradient(
           //center: Alignment.topCenter,
           center: Alignment(0, -0.5),
-          radius: 1.5,  //0.5 //default,
+          radius: 1.5, //0.5 //default,
           colors: [Colors.white, MyConstant.primary],
           //colors: [Colors.white, MyConstant.light,MyConstant.primary],
         ),
@@ -92,6 +92,18 @@ class MyConstant {
   TextStyle h1Style() => TextStyle(
         fontSize: 24,
         color: dark,
+        fontWeight: FontWeight.bold,
+      );
+
+  TextStyle h1WhiteStyle() => TextStyle(
+        fontSize: 24,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      );
+
+  TextStyle h1RedStyle() => TextStyle(
+        fontSize: 24,
+        color: Colors.red.shade900,
         fontWeight: FontWeight.bold,
       );
 

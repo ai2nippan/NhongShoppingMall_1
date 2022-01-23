@@ -7,6 +7,7 @@ import 'package:nhongshoppingmall_1/models/user_model.dart';
 import 'package:nhongshoppingmall_1/utility/my_constant.dart';
 import 'package:nhongshoppingmall_1/utility/sqlite_helper.dart';
 import 'package:nhongshoppingmall_1/widgets/show_image.dart';
+import 'package:nhongshoppingmall_1/widgets/show_no_data.dart';
 import 'package:nhongshoppingmall_1/widgets/show_progress.dart';
 import 'package:nhongshoppingmall_1/widgets/show_title.dart';
 
@@ -79,23 +80,7 @@ class _ShowCartState extends State<ShowCart> {
       body: load
           ? ShowProgress()
           : sqliteModels.isEmpty
-              ? Container(decoration: MyConstant().gradientLinearBackground(),
-                child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 16),
-                          width: 200,
-                          child: ShowImage(path: MyConstant.image1),
-                        ),
-                        ShowTitle(
-                            title: 'Empty Cart',
-                            textStyle: MyConstant().h1Style()),
-                      ],
-                    ),
-                  ),
-              )
+              ? ShowNoData(title: 'Empty Cart', pathImage: MyConstant.image3,)
               : buildContent(),
     );
   }
